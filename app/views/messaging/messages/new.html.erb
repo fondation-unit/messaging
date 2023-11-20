@@ -14,7 +14,7 @@
       <% end %>
 
       <%= content_tag :div, class: "d-none", data: { messaging_target: "newMessage" } do %>
-        Nouveau message
+        <%= t("messaging.new_message") %>
         <%= image_tag "arrow-down-circle.svg", class: "position-relative", style: "width: 15px;" %>
       <% end %>
         
@@ -27,11 +27,11 @@
 
                 <%= content_tag :div, class: "form-floating" do %>
                   <%= f.text_area :body, class: "form-control", placeholder: "", id: "message-body", required: true, data: { messaging_target: "newMessageInput" }  %>
-                  <%= f.label :body, t(:your_message).capitalize, for: "message-body", class: "form-label ms-2" %>
+                  <%= f.label :body, t("messaging.your_message").capitalize, for: "message-body", class: "form-label ms-2" %>
                 <% end %>
 
                 <%= content_tag :div, class: "d-flex justify-content-end pt-2" do %>
-                  <%= f.submit "Envoyer", class: "btn btn-info d-none d-md-flex", data: { messaging_target: "submit" } %>
+                  <%= f.submit t("messaging.send"), class: "btn btn-info d-none d-md-flex", data: { messaging_target: "submit" } %>
                   <%= f.submit "", class: "btn btn-info send__img d-md-none ms-2", data: { messaging_target: "submit" } %>
                 <% end %>
               <% end %>

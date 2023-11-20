@@ -1,2 +1,6 @@
 fr:
-  messaging: "Messagerie"
+  messaging:
+    messaging: "Messagerie"
+    new_message: "Nouveau message"
+    send: "Envoyer"
+    your_message: "Votre message"
