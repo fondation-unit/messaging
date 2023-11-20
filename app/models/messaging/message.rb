@@ -16,7 +16,7 @@ module Messaging
     after_create_commit :update_user_messages_list, only: %i[create]
     after_create_commit :update_institution_messages_list, only: %i[create]
 
-    scope :user_messages, ->(user) { where(user_id: user.id) }
+    scope :user_messages, ->(user_id) { where(user_id: user_id) }
     scope :users_with_messages, ->(institution) {
       User.joins(:messaging_messages)
           .where(institution_id: institution)

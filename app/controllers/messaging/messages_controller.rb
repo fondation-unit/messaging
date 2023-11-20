@@ -8,7 +8,7 @@ module Messaging
 
     def index
       # Non managers only need to see the messaging interface
-      return redirect_to new_message_path if !current_user.manager?
+      return redirect_to new_message_path if !current_user.is_manager?
 
       # Managers get a list of messages for their institution
       @messages = Message.users_with_messages(current_user&.institution)
@@ -16,7 +16,8 @@ module Messaging
     end
 
     def new
-      @user_messages = Message.includes(:emitter, :user).user_messages(current_user)
+      user_id = current_user.is_manager? ? params[:id] : current_user.id
+      @user_messages = Message.includes(:emitter).user_messages(user_id)
       Message.mark_user_message_as_read(current_user)
 
       @message = Message.new
