@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.version     = Messaging::VERSION
   spec.authors     = ["Hipjea"]
   spec.email       = ["pierre.duverneix@gmail.com"]
-  spec.homepage    = "Messaging"
+  spec.homepage    = "https://github.com/fondation-unit/messaging"
   spec.summary     = "Messaging."
   spec.description = "Description of Messaging."
   spec.license     = "MIT"
