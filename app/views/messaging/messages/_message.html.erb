@@ -1,5 +1,5 @@
-<li id="<%= dom_id message %>" class="<%= "list-item #{message.emitter_id == message.user_id ? "self d-flex" : "emitter d-flex"}" %>">
-  <div class="<%= "#{message.emitter_id == message.user_id ? "self-box p-2 text-white me-5 mt-2 mb-2" : "emitter-box p-2 text-white ms-5 mt-2 mb-2"}" %>">
+<li id="<%= dom_id message %>" class="<%= "list-item d-flex #{Messaging::MessageHelper.message_box_class(message, current_user)}" %>">
+  <div class="<%= "#{Messaging::MessageHelper.message_box_class(message, current_user)}-box p-2 text-white me-5 mt-2 mb-2" %>">
     <div class="d-flex flex-column">
       <span class="col-12">
         <%= Messaging::MessageHelper.user_name(message.emitter.firstname, message.emitter.lastname) %>

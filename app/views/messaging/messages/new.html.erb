@@ -9,7 +9,7 @@
       <%= content_tag :div, class: "col-12 overflow-y-auto w-100 chat__box position-relative pb-2", data: { messaging_target: "chatBox" } do %>
         <%= turbo_stream_from "message_channel:#{current_user.id}" %>
         <%= turbo_frame_tag "messages-list" do %>
-          <%= render partial: "messaging/messages/message", collection: @user_messages %>
+          <%= render partial: "messaging/messages/message", collection: @user_messages, locales: {current_user: current_user} %>
         <% end %>
       <% end %>
 
