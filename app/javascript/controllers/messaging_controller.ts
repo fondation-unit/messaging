@@ -1,14 +1,11 @@
 import { Controller } from "@hotwired/stimulus";
-import { Turbo } from "@hotwired/turbo-rails";
-import { getCSRFToken, createFetchHeaders } from "../utils/csrf";
 import { createConsumer } from "@rails/actioncable";
 
 
 export default class extends Controller {
-  static targets = ["chatBox", "form", "newMessageInput", "currentUserId", "newMessage"]
+  static targets = ["chatBox", "newMessageInput", "currentUserId", "newMessage"]
 
   declare chatBoxTarget: HTMLDivElement
-  declare formTarget: HTMLFormElement
   declare newMessageInputTarget: HTMLInputElement
   declare currentUserIdTarget: HTMLInputElement
   declare newMessageTarget: HTMLAreaElement

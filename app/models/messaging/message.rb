@@ -59,7 +59,7 @@ module Messaging
 
       def update_user_messages_list
         broadcast_append_to "message_channel:#{user.id}",
-          partial: "messages/message",
+          partial: "messaging/messages/message",
           locals: {message: self},
           target: "messages-list"
       end
@@ -68,7 +68,7 @@ module Messaging
       def update_institution_messages_list
         Institution.get_managers(institution.id).map { |user|
           broadcast_append_to "message_channel:#{user.id}",
-            partial: "messages/message",
+            partial: "messaging/messages/message",
             locals: {message: self},
             target: "messages-list"
         }

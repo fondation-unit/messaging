@@ -2,7 +2,7 @@
   <div class="<%= "#{message.emitter_id == message.user_id ? "self-box p-2 text-white me-5 mt-2 mb-2" : "emitter-box p-2 text-white ms-5 mt-2 mb-2"}" %>">
     <div class="d-flex flex-column">
       <span class="col-12">
-        <%= user_name(message.emitter.firstname, message.emitter.lastname) %>
+        <%= Messaging::MessageHelper.user_name(message.emitter.firstname, message.emitter.lastname) %>
       </span>
       <span class="col-12">
         <%= message.body %>
