@@ -1,0 +1,15 @@
+<%= content_tag :div, class: "page__header" do %>
+  <%= content_tag :h1, "Messagerie instantanée", class: "p-5 m-0" %>
+<% end %>
+
+<%= content_tag :div, id: "user-messages", class: "container" do %>
+  <%= content_tag :div, class: "d-flex flex-column flex-md-row" do %>
+    <%= content_tag :div, class: "col-12 d-flex justify-content-center justify-content-md-start" do %>
+      <%= content_tag :div, class: "d-flex align-items-center" do %>
+        <%= link_to messaging.new_message_path, class: "btn btn-info me-4" do %>
+          <%= content_tag :span, "Nouvelle conversation" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
