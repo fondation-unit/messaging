@@ -31,7 +31,7 @@ module Messaging
           format.turbo_stream do
             render turbo_stream: turbo_stream.append(
               "messages-list",
-              partial: "messages/message",
+              partial: "messaging/messages/message",
               locals: {message: @message}
             )
           end
@@ -40,8 +40,6 @@ module Messaging
         redirect_to new_message_path
       end
     end
-
-    def update; end
 
     private
 

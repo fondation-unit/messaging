@@ -1,0 +1,20 @@
+<li id="<%= dom_id message %>" class="<%= "list-item #{message.emitter_id == message.user_id ? "self d-flex" : "emitter d-flex"}" %>">
+  <div class="<%= "#{message.emitter_id == message.user_id ? "self-box p-2 text-white me-5 mt-2 mb-2" : "emitter-box p-2 text-white ms-5 mt-2 mb-2"}" %>">
+    <div class="d-flex flex-column">
+      <span class="col-12">
+        <%= user_name(message.emitter.firstname, message.emitter.lastname) %>
+      </span>
+      <span class="col-12">
+        <%= message.body %>
+      </span>
+      <% if message.user_id != message.emitter_id && message.read == true %>
+        <span class="col-12 d-flex justify-content-end">
+          <span>
+            Lu
+            <%= image_tag "check.svg", class: "position-relative", style: "width: 15px;" %>
+          </span>
+        </span>
+      <% end %>
+    </div>
+  </div>
+</li>
