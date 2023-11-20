@@ -9,7 +9,7 @@
       <%= content_tag :div, class: "col-12 overflow-y-auto w-100 chat__box position-relative pb-2", data: { messaging_target: "chatBox" } do %>
         <%= turbo_stream_from "message_channel:#{current_user.id}" %>
         <%= turbo_frame_tag "messages-list" do %>
-          <%= render partial: "messaging/messages/message", collection: @user_messages, locales: {current_user: current_user} %>
+          <%= render partial: "messaging/messages/message", collection: @user_messages %>
         <% end %>
       <% end %>
 
@@ -22,7 +22,7 @@
         <%= form_with model: @message, url: messaging.messages_path, method: :post, data: { messaging_target: "form" } do |f| %>      
           <%= content_tag :div, class: "d-flex justify-content-end field" do %>
             <%= content_tag :div, class:"row" do %>
-              <%= f.hidden_field :user_id, value: current_user.id %>
+              <%= f.hidden_field :user_id, value: params[:id].blank? ? current_user.id : params[:id] %>
               <%= content_tag :div, class: "d-flex flex-md-column" do %>
 
                 <%= content_tag :div, class: "form-floating" do %>

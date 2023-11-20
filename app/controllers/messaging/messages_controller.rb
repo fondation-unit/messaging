@@ -18,6 +18,8 @@ module Messaging
     def new
       user_id = current_user.is_manager? ? params[:id] : current_user.id
       @user_messages = Message.includes(:emitter).user_messages(user_id)
+      # We need to pass the current_user to the turbo stream element for UI purposes
+      @user_messages.map { |m| m.current_user = current_user }
       Message.mark_user_message_as_read(current_user)
 
       @message = Message.new
@@ -26,6 +28,8 @@ module Messaging
     def create
       @user = User.includes(:institution).find(params[:message][:user_id])
       @message = Message.new(message_params.merge(user: @user, institution: @user.institution, emitter: current_user))
+      # We need to pass the current_user to the turbo stream element for UI purposes
+      @message.current_user = current_user
 
       if @message.save
         respond_to do |format|

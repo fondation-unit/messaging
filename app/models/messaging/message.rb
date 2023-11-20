@@ -4,7 +4,7 @@ module Messaging
   class Message < ApplicationRecord
     table_name = "messaging_messages"
 
-    attr_accessor :user, :institution
+    attr_accessor :user, :institution, :current_user
 
     belongs_to :user, class_name: "User"
     belongs_to :institution, class_name: "Institution"
