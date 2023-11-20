@@ -11,7 +11,12 @@ module Messaging
       render :index
     end
 
-    def new; end
+    def new
+      @user_messages = Message.includes(:emitter, :user).user_messages(current_user)
+      Message.mark_user_message_as_read(current_user)
+
+      @message = Message.new
+    end
 
     def create; end
   end

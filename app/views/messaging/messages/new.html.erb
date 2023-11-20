@@ -1,0 +1,48 @@
+<%= javascript_include_tag "messaging/application", "data-turoblinks-track": "reload", type: "module" %>
+
+<%= content_tag :div, data: { controller: "messaging" } do %>
+  <input type="hidden" class="d-none" value="<%= current_user.id %>" data-messaging-target="currentUserId">
+
+  <%= content_tag :div, id: "messaging", class: "container d-flex justify-content-center align-items-center" do %>
+
+    <%= content_tag :div, class: "d-flex row justify-content-center pt-4 pb-4" do %>
+      <%= content_tag :div, class: "col-12 overflow-y-auto w-100 chat__box position-relative pb-2", data: { messaging_target: "chatBox" } do %>
+        <%= turbo_stream_from "message_channel:#{current_user.id}" %>
+        <%= turbo_frame_tag "messages-list" do %>
+          <%= render partial: "messages/message", collection: @user_messages %>
+        <% end %>
+      <% end %>
+
+      <%= content_tag :div, class: "d-none", data: { messaging_target: "newMessage" } do %>
+        Nouveau message
+        <%= image_tag "arrow-down-circle.svg", class: "position-relative", style: "width: 15px;" %>
+      <% end %>
+        
+      <%= content_tag :div, class: "col-12 pt-4" do %>
+        <%= form_for [@message], method: :post, data: { messaging_target: "form" } do |f| %>      
+          <%= content_tag :div, class: "d-flex justify-content-end field" do %>
+            <%= content_tag :div, class:"row" do %>
+              <%= f.hidden_field :user_id, value: current_user.id %>
+              <%= content_tag :div, class: "d-flex flex-md-column" do %>
+
+                <%= content_tag :div, class: "form-floating" do %>
+                  <%= f.text_area :body, class: "form-control", placeholder: "", id: "message-body", data: { messaging_target: "newMessageInput" }  %>
+                  <%= f.label :body, t(:your_message).capitalize, for: "message-body", class: "form-label ms-2" %>
+                <% end %>
+
+                <%= content_tag :div, class: "d-flex justify-content-end pt-2" do %>
+                  <%= f.submit "Envoyer", class: "btn btn-info d-none d-md-flex", data: { messaging_target: "submit" } %>
+                  <%= f.submit "", class: "btn btn-info send__img d-md-none ms-2", data: { messaging_target: "submit" } %>
+                <% end %>
+
+              <% end %>
+            <% end %>
+          <% end %>
+
+        <% end %>
+      <% end %>
+
+    <% end %>
+
+  <% end %>
+<% end %>

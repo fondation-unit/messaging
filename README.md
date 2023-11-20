@@ -1,28 +1,27 @@
 # Messaging
-Short description and motivation.
-
-## Usage
-How to use my plugin.
 
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "messaging"
+gem "messaging", git: "https://github.com/fondation-unit/messaging"
 ```
 
 And then execute:
+
 ```bash
 $ bundle
 ```
 
-Or install it yourself as:
+## Assets
+Compile the assets :
+
 ```bash
-$ gem install messaging
+$ bin/rails app:assets:precompile
 ```
 
-## Contributing
-Contribution directions go here.
+Within your main application, add the following in `app/config/manifest.js` :
 
-## License
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+```js
+//= link messaging/application.js
+```
