@@ -1,15 +1,29 @@
 <%= content_tag :div, class: "page__header" do %>
-  <%= content_tag :h1, "Messagerie instantanée", class: "p-5 m-0" %>
+  <%= content_tag :h1, t(:messaging).capitalize, class: "p-5 m-0" %>
 <% end %>
 
-<%= content_tag :div, id: "user-messages", class: "container" do %>
-  <%= content_tag :div, class: "d-flex flex-column flex-md-row" do %>
-    <%= content_tag :div, class: "col-12 d-flex justify-content-center justify-content-md-start" do %>
-      <%= content_tag :div, class: "d-flex align-items-center" do %>
-        <%= link_to messaging.new_message_path, class: "btn btn-info me-4" do %>
-          <%= content_tag :span, "Nouvelle conversation" %>
+<%= content_tag :div, id: "messages-table", class: "container d-flex justify-content-center align-items-center" do %>
+  <%= content_tag :div, class: "row" do %>
+    <%= render partial: "layouts/breadcrumb" %>
+
+    <%= content_tag :table, class: "table" do %>
+
+      <%= content_tag :thead do %>
+        <%= content_tag :tr do %>
+          <%= content_tag :th do %>
+          <% end %>
         <% end %>
       <% end %>
+
+      <%= content_tag :tbody do %>
+        <%= content_tag :div, id: "search_results" do %>
+          <%= turbo_frame_tag "messages-index" do %>
+            <%= render partial: "messaging/messages/list", locals: { resources: @messages } %>
+          <% end %>
+        <% end %>
+      <% end %>
+
     <% end %>
+
   <% end %>
 <% end %>

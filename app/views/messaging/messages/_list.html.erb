@@ -1,0 +1,23 @@
+<% resources.each do |resource| %>
+  <%= content_tag :tr do %>
+    <%= content_tag :td do %>
+      <ul>
+        <li id="<%= dom_id resource %>" class="list-item list-unstyled">
+          <%= link_to messaging.new_message_path(resource), class: "text-decoration-none position-relative" do %>
+            <%= image_tag "chat-fill.svg", class: "position-relative", style: "width: 30px;" %>
+              <% if !Messaging::Message.last_message_read?(resource) %>
+                <%= content_tag :span, class: "pulse position-absolute" do %>
+                  <span class="visually-hidden">New alerts</span>
+                <% end %>
+              <% end %>
+          <% end %>
+
+          <%= content_tag :span, class: "ps-2" do %>
+            <%= resource.firstname %>
+            <%= resource.lastname %>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+  <% end %>
+<% end %>

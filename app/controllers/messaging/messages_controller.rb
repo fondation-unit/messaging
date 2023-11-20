@@ -2,16 +2,18 @@
 
 module Messaging
   class MessagesController < ::ApplicationController
-    layout "application"
+    layout "message"
 
     before_action :authenticate_user!
 
     def index
-      @messages = Message.all
+      # Non managers only need to see the messaging interface
+      return redirect_to new_message_path if !current_user.manager?
+
+      # Managers get a list of messages for their institution
+      @messages = Message.users_with_messages(current_user&.institution)
       render :index
     end
-
-    def show; end
 
     def new
       @user_messages = Message.includes(:emitter, :user).user_messages(current_user)
@@ -21,18 +23,30 @@ module Messaging
     end
 
     def create
-      p "*" * 90
-      p params
-      p "*" * 90
-    end
+      @user = User.includes(:institution).find(params[:message][:user_id])
+      @message = Message.new(message_params.merge(user: @user, institution: @user.institution, emitter: current_user))
 
+      if @message.save
+        respond_to do |format|
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.append(
+              "messages-list",
+              partial: "messages/message",
+              locals: {message: @message}
+            )
+          end
+        end
+      else
+        redirect_to new_message_path
+      end
+    end
 
     def update; end
 
     private
 
       def message_params
-        params.require(:message).permit(:emitter_id, :receiver_id, :emitter_type, :receiver_type, :body)
+        params.require(:message).permit(:user_id, :emitter_id, :receiver_id, :emitter_type, :receiver_type, :body)
       end
   end
 end

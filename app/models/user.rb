@@ -1,3 +1,3 @@
-class User < ::ApplicationRecord
+# frozen_string_literal: true
 
-end
+class User < ::ApplicationRecord; end

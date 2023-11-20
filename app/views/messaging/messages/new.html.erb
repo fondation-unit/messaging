@@ -26,7 +26,7 @@
               <%= content_tag :div, class: "d-flex flex-md-column" do %>
 
                 <%= content_tag :div, class: "form-floating" do %>
-                  <%= f.text_area :body, class: "form-control", placeholder: "", id: "message-body", data: { messaging_target: "newMessageInput" }  %>
+                  <%= f.text_area :body, class: "form-control", placeholder: "", id: "message-body", required: true, data: { messaging_target: "newMessageInput" }  %>
                   <%= f.label :body, t(:your_message).capitalize, for: "message-body", class: "form-label ms-2" %>
                 <% end %>
 
