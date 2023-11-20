@@ -19,7 +19,7 @@
       <% end %>
         
       <%= content_tag :div, class: "col-12 pt-4" do %>
-        <%= form_for [@message], method: :post, data: { messaging_target: "form" } do |f| %>      
+        <%= form_with model: @message, url: messaging.messages_path, method: :post, data: { messaging_target: "form" } do |f| %>      
           <%= content_tag :div, class: "d-flex justify-content-end field" do %>
             <%= content_tag :div, class:"row" do %>
               <%= f.hidden_field :user_id, value: current_user.id %>
@@ -34,11 +34,9 @@
                   <%= f.submit "Envoyer", class: "btn btn-info d-none d-md-flex", data: { messaging_target: "submit" } %>
                   <%= f.submit "", class: "btn btn-info send__img d-md-none ms-2", data: { messaging_target: "submit" } %>
                 <% end %>
-
               <% end %>
             <% end %>
           <% end %>
-
         <% end %>
       <% end %>
 

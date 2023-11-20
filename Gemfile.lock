@@ -190,6 +190,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sqlite3 (1.6.8-arm64-darwin)
     stringio (3.0.9)
     thor (1.3.0)
     timeout (0.4.1)
@@ -211,6 +212,7 @@ DEPENDENCIES
   messaging!
   puma
   sprockets-rails
+  sqlite3
 
 BUNDLED WITH
    2.4.13

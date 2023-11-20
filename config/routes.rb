@@ -4,5 +4,5 @@ Messaging::Engine.routes.draw do
   root to: redirect("/")
   devise_for :users, class_name: "User", module: :devise
 
-  resources :messages
+  resources :messages, only: %i[index new create]
 end

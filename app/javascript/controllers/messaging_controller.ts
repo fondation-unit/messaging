@@ -14,9 +14,9 @@ export default class extends Controller {
   declare newMessageTarget: HTMLAreaElement
 
   connect() {
-    console.log("Messaging...")
+    console.log("Messaging 3...")
     const current_user = this.currentUserIdTarget as HTMLInputElement;
-    const consummer = createConsumer("ws://127.0.0.1:3000/cable");
+    const consummer = createConsumer();
 
     consummer.subscriptions.create({ channel: "MessageChannel", id: current_user.value }, {
       connected: () => { },
@@ -40,23 +40,6 @@ export default class extends Controller {
       this.newMessageTarget.classList.remove("d-flex");
       this.newMessageTarget.classList.add("d-none");
     });
-
-    this.formTarget.addEventListener("onsubmit", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      return false;
-    });
-
-    this.formTarget.addEventListener("submit", (event) => {
-      console.log("2:", this.formTarget)
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.createMessage();
-
-      return false;
-    });
   }
 
   scrollToBottom() {
@@ -69,32 +52,5 @@ export default class extends Controller {
     document.addEventListener("DOMContentLoaded", () => {
       this.scrollToBottom();
     });
-  }
-
-  createMessage() {
-    const csrfToken = getCSRFToken();
-    const headers = createFetchHeaders(csrfToken);
-    const body = this.formTarget.querySelector("#message-body") as HTMLInputElement;
-    const userId = this.formTarget.querySelector("#message_user_id") as HTMLInputElement;
-    const pathname = window.location.pathname
-
-    fetch(`${pathname.includes('/admin') ? '/admin/messages' : '/messages'}`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers,
-      body: JSON.stringify({ body: body.value, user_id: userId.value })
-    })
-      .then(response => response.text())
-      .then(data => {
-        Turbo.renderStreamMessage(data)
-        this.newMessageInputTarget.value = "";
-        this.chatBoxTarget.scrollTop = this.chatBoxTarget.scrollHeight;
-
-        return true;
-      });
-
-    return false;
   }
 }
