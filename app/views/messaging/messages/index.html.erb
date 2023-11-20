@@ -4,10 +4,7 @@
 
 <%= content_tag :div, id: "messages-table", class: "container d-flex justify-content-center align-items-center" do %>
   <%= content_tag :div, class: "row" do %>
-    <%= render partial: "layouts/breadcrumb" %>
-
     <%= content_tag :table, class: "table" do %>
-
       <%= content_tag :thead do %>
         <%= content_tag :tr do %>
           <%= content_tag :th do %>
@@ -22,8 +19,6 @@
           <% end %>
         <% end %>
       <% end %>
-
     <% end %>
-
   <% end %>
 <% end %>
