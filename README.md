@@ -18,13 +18,19 @@ $ bundle
 Create the migration files:
 
 ```bash
-bin/rails messaging:install:migrations
+$ bin/rails messaging:install:migrations
 ```
 
 Copy the views and config files:
 
 ```bash
 $ bin/rails generate messaging:install
+```
+
+Mount the engine in `config/routes.rb`:
+
+```ruby
+mount Messaging::Engine, at: "/messaging"
 ```
 
 Set the config variables in `config/initializers/messaging.rb`.
