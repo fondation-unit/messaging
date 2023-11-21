@@ -2,7 +2,7 @@
 
 module Messaging
   class Message < ApplicationRecord
-    table_name = "messaging_messages"
+    table_name "messaging_messages"
 
     attr_accessor :user, :institution, :current_user
 
@@ -19,9 +19,9 @@ module Messaging
     scope :user_messages, ->(user_id) { where(user_id: user_id) }
     scope :users_with_messages, ->(institution) {
       User.joins(:messaging_messages)
-          .where(institution_id: institution)
-          .group(:id)
-          .order(created_at: :desc)
+        .where(institution_id: institution)
+        .group(:id)
+        .order(created_at: :desc)
     }
 
     scope :unread_messages_for_user, ->(user) do
@@ -46,32 +46,32 @@ module Messaging
     def self.last_message(user_id)
       where(user: user_id).order(created_at: :desc).first
     end
-  
+
     def self.last_message_date(user_id)
-      self.last_message(user_id).created_at
+      last_message(user_id).created_at
     end
-  
+
     def self.last_message_read?(user_id)
-      self.last_message(user_id).read
+      last_message(user_id).read
     end
-  
+
     private
 
-      def update_user_messages_list
+    def update_user_messages_list
+      broadcast_append_to "message_channel:#{user.id}",
+        partial: "messaging/messages/message",
+        locals: {message: self},
+        target: "messages-list"
+    end
+
+    # We also need to update the institution’s manager interface
+    def update_institution_messages_list
+      Institution.get_managers(institution.id).map { |user|
         broadcast_append_to "message_channel:#{user.id}",
           partial: "messaging/messages/message",
           locals: {message: self},
           target: "messages-list"
-      end
-
-      # We also need to update the institution’s manager interface
-      def update_institution_messages_list
-        Institution.get_managers(institution.id).map { |user|
-          broadcast_append_to "message_channel:#{user.id}",
-            partial: "messaging/messages/message",
-            locals: {message: self},
-            target: "messages-list"
-        }
-      end
+      }
+    end
   end
 end
