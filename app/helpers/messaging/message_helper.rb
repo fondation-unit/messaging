@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Messaging
   module MessageHelper
     def self.user_name(firstname, lastname)
@@ -8,7 +10,7 @@ module Messaging
       return "self" if message.emitter_id != message.user_id && current_user.is_manager?
 
       return "self" if message.emitter_id == message.user_id && !current_user.is_manager?
-      
+
       "emitter"
     end
   end
