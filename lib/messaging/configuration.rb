@@ -2,10 +2,11 @@
 
 module Messaging
   class Configuration
-    attr_accessor :notification_channel
+    mattr_accessor :notification_channel, :notification_target
 
     def initialize
-      @notification_channel = "notification_channel"
+      @notification_channel = "default_notification_channel"
+      @notification_target = "notifications-count"
     end
   end
 end

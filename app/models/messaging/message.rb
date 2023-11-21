@@ -75,7 +75,10 @@ module Messaging
     end
 
     def send_notification
-      broadcast_replace_to Messaging.configuration.notification_channel, user.id, target: "notifications-count", html: Notification.unread(user).count
+      broadcast_replace_to Messaging.configuration.notification_channel,
+        user.id,
+        target: Messaging.configuration.notification_target,
+        html: user.unread_notifications
     end
   end
 end
