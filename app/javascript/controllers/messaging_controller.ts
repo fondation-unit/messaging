@@ -11,7 +11,6 @@ export default class extends Controller {
   declare newMessageTarget: HTMLAreaElement
 
   connect() {
-    console.log("Messaging 3...")
     const current_user = this.currentUserIdTarget as HTMLInputElement;
     const consummer = createConsumer();
 

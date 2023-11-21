@@ -2,8 +2,6 @@
 
 module Messaging
   class Message < ApplicationRecord
-    table_name "messaging_messages"
-
     attr_accessor :user, :institution, :current_user
 
     belongs_to :user, class_name: "User"
@@ -15,8 +13,10 @@ module Messaging
     before_validation :set_default_values, on: :create
     after_create_commit :update_user_messages_list, only: %i[create]
     after_create_commit :update_institution_messages_list, only: %i[create]
+    after_create_commit :send_notification, only: %i[create]
 
     scope :user_messages, ->(user_id) { where(user_id: user_id) }
+
     scope :users_with_messages, ->(institution) {
       User.joins(:messaging_messages)
         .where(institution_id: institution)
@@ -72,6 +72,10 @@ module Messaging
           locals: {message: self},
           target: "messages-list"
       }
+    end
+
+    def send_notification
+      broadcast_replace_to "notification_channel", user.id, target: "notifications-count", html: Notification.unread(user).count
     end
   end
 end
