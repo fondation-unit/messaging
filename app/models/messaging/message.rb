@@ -40,7 +40,7 @@ module Messaging
     end
 
     def self.own_institution(institution)
-      includes([:user]).where(institution_id: institution)
+      where(institution_id: institution)
     end
 
     def self.last_message(user_id)
