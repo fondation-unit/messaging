@@ -78,7 +78,7 @@ module Messaging
       broadcast_replace_to Messaging.configuration.notification_channel,
         user.id,
         target: Messaging.configuration.notification_target,
-        html: user.unread_notifications
+        html: user.unread_notifications_count
     end
   end
 end
