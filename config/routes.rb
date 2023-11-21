@@ -2,8 +2,8 @@
 
 Messaging::Engine.routes.draw do
   root to: redirect("/")
-  get "/admin", to: redirect("/admin"), as: :admin_index
-  devise_for :users, class_name: "User", module: :devise
+  get "/#{Messaging.configuration.admin_path}", to: redirect("/#{Messaging.configuration.admin_path}"), as: :admin_index
+  devise_for :users, class_name: Messaging.configuration.user_class, module: :devise
 
   resources :messages, only: %i[index new create]
 end
