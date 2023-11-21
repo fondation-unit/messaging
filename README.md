@@ -15,10 +15,16 @@ And then execute:
 $ bundle
 ```
 
+Create the migration files:
+
+```bash
+bin/rails messaging:install:migrations
+```
+
 Copy the views and config files:
 
 ```bash
-$ rails generate messaging:install
+$ bin/rails generate messaging:install
 ```
 
 Set the config variables in `config/initializers/messaging.rb`.
