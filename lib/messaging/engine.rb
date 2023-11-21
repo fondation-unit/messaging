@@ -5,7 +5,7 @@ module Messaging
     isolate_namespace Messaging
 
     initializer "messaging.assets.precompile" do |app|
-      app.config.assets.paths << root.join("app", "builds").to_s
+      app.config.assets.precompile << "config/manifest.js"
     end
 
     config.before_configuration do

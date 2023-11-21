@@ -185,5 +185,3 @@ tsconfig.tsbuildinfo
 /test/dummy/storage/
 /test/dummy/tmp/
 /test/dummy/public/assets/
-
-/app/assets/javascripts/messaging
