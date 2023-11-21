@@ -15,6 +15,12 @@ And then execute:
 $ bundle
 ```
 
+Copy the views and config files:
+
+```bash
+$ rails generate messaging:install
+```
+
 Set the config variables in `config/initializers/messaging.rb`.
 
 Example :

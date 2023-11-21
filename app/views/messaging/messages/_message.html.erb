@@ -7,11 +7,10 @@
       <span class="col-12">
         <%= message.body %>
       </span>
-      <% if message.user_id != message.emitter_id && message.read == true %>
+      <% if message.user_id != message.current_user && message.read == true %>
         <span class="col-12 d-flex justify-content-end">
           <span>
-            Lu
-            <%= image_tag "check.svg", class: "position-relative", style: "width: 15px;" %>
+            <%= t("messaging.read") %>
           </span>
         </span>
       <% end %>

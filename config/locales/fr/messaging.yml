@@ -2,5 +2,6 @@ fr:
   messaging:
     messaging: "Messagerie"
     new_message: "Nouveau message"
+    read: "Lu"
     send: "Envoyer"
     your_message: "Votre message"
