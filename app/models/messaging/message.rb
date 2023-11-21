@@ -4,9 +4,9 @@ module Messaging
   class Message < ApplicationRecord
     attr_accessor :user, :institution, :current_user
 
-    belongs_to :user, class_name: "User"
-    belongs_to :institution, class_name: "Institution"
-    belongs_to :emitter, class_name: "User"
+    belongs_to :user, class_name: Messaging.configuration.user_class.to_s
+    belongs_to :institution, class_name: Messaging.configuration.institution_class.to_s
+    belongs_to :emitter, class_name: Messaging.configuration.user_class.to_s
 
     validates :body, presence: true
 
@@ -82,3 +82,29 @@ module Messaging
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: messaging_messages
+#
+#  id                :bigint           not null, primary key
+#  body              :text(65535)
+#  read              :boolean          default(FALSE)
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  user_id           :bigint
+#  institution_id    :bigint
+#  emitter_id        :bigint
+#
+# Indexes
+#
+#  index_messaging_messages_on_emitter_id      (emitter_id)
+#  index_messaging_messages_on_institution_id  (institution_id)
+#  index_messaging_messages_on_user_id         (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (emitter_id => users.id)
+#  fk_rails_...  (institution_id => institutions.id)
+#  fk_rails_...  (user_id => users.id)
+#
