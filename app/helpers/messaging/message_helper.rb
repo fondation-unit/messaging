@@ -7,11 +7,14 @@ module Messaging
     end
 
     def self.message_box_class(message, current_user)
-      return "self" if message.emitter_id != message.user_id && current_user.is_manager?
+      return "#{message.message_class}" if message.message_class.present?
 
-      return "self" if message.emitter_id == message.user_id && !current_user.is_manager?
+      if current_user.manager? || current_user.admin?
+        return "emitter__box user" if message.emitter.student?
+      end
+      return "emitter__box institution" if message.emitter != current_user
 
-      "emitter"
+      "self__box"
     end
   end
 end

@@ -2,7 +2,7 @@
 
 module Messaging
   class Message < ApplicationRecord
-    attr_accessor :user, :institution, :current_user
+    attr_accessor :user, :institution, :current_user, :message_class
 
     belongs_to :user, class_name: Messaging.configuration.user_class.to_s
     belongs_to :institution, class_name: Messaging.configuration.institution_class.to_s
@@ -12,7 +12,6 @@ module Messaging
 
     before_validation :set_default_values, on: :create
     after_create_commit :update_user_messages_list, only: %i[create]
-    after_create_commit :update_institution_messages_list, only: %i[create]
     after_create_commit :send_notification, only: %i[create]
 
     scope :user_messages, ->(user_id) { where(user_id: user_id) }
@@ -58,18 +57,14 @@ module Messaging
     private
 
     def update_user_messages_list
-      broadcast_append_to "message_channel:#{user.id}",
-        partial: "messaging/messages/message",
-        locals: {message: self},
-        target: "messages-list"
-    end
+      user_to_broadcast_to = Institution.get_managers(institution.id) + [user]
+      user_to_broadcast_to.map { |u|
+        msg = self
+        msg.message_class = (emitter.manager? || emitter.admin?) ? "self__box institution" : "emitter__box user"
 
-    # We also need to update the institution’s manager interface
-    def update_institution_messages_list
-      Institution.get_managers(institution.id).map { |user|
-        broadcast_append_to "message_channel:#{user.id}",
+        broadcast_append_to "message_channel:#{u.id}",
           partial: "messaging/messages/message",
-          locals: {message: self},
+          locals: {message: msg},
           target: "messages-list"
       }
     end
