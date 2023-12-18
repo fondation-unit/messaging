@@ -24,7 +24,7 @@ module Messaging
     }
 
     scope :unread_messages_for_user, ->(user) do
-      includes(:user).where(read: false, user: user)
+      where(read: false, user: user)
     end
 
     def set_default_values
