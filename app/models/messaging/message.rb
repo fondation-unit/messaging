@@ -59,12 +59,11 @@ module Messaging
     def update_user_messages_list
       user_to_broadcast_to = Institution.get_managers(institution.id) + [user]
       user_to_broadcast_to.map { |u|
-        msg = self
-        msg.message_class = (emitter.manager? || emitter.admin?) ? "self__box institution" : "emitter__box user"
+        self.message_class = (emitter.manager? || emitter.admin?) ? "self__box institution" : "emitter__box user"
 
         broadcast_append_to "message_channel:#{u.id}",
           partial: "messaging/messages/message",
-          locals: {message: msg},
+          locals: {message: self},
           target: "messages-list"
       }
     end
