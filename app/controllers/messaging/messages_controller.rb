@@ -22,6 +22,7 @@ module Messaging
       @user_messages.map { |m| m.current_user = current_user }
       Message.mark_user_message_as_read(current_user)
 
+      @user = User.find(user_id)
       @message = Message.new
     end
 

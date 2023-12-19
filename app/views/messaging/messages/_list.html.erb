@@ -1,22 +1,20 @@
 <% resources.each do |resource| %>
   <%= content_tag :tr do %>
     <%= content_tag :td do %>
-      <ul>
-        <li id="<%= dom_id resource %>" class="list-item list-unstyled">
-          <%= link_to messaging.new_message_path(id: resource), class: "text-decoration-none position-relative" do %>
-            <%= image_tag "chat-fill.svg", class: "position-relative", style: "width: 30px;" %>
-            <% if !Messaging::Message.last_message_read?(resource) %>
-              <%= content_tag :span, class: "pulse position-absolute" do %>
-                <span class="visually-hidden">New alerts</span>
-              <% end %>
+      <div id="<%= dom_id resource %>" class="list-item list-unstyled">
+        <%= link_to messaging.new_message_path(id: resource), class: "text-decoration-none position-relative w-100" do %>
+          <%= image_tag "chat-fill.svg", style: "width: 30px;" %>
+          <% if !Messaging::Message.last_message_read?(resource) %>
+            <%= content_tag :span, class: "pulse" do %>
+              <span class="visually-hidden" style="width:15px">New alerts</span>
             <% end %>
           <% end %>
 
           <%= content_tag :span, class: "ps-2" do %>
             <%= Messaging::MessageHelper.user_name(resource, nil) %>
           <% end %>
-        </li>
-      </ul>
+        <% end %>
+      </div>
     <% end %>
   <% end %>
 <% end %>

@@ -1,0 +1,9 @@
+<div class="row">
+  <%= users.count %>
+  <% users.each do |user| %>
+    <br>
+    <%= link_to messaging.new_message_path(id: user) do %>
+      <%= highlight("#{user.firstname} #{user.lastname}", params.dig(:firstname_search)) %>
+    <% end %>
+  <% end %>
+</div>

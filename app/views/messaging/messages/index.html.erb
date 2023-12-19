@@ -2,23 +2,27 @@
   <%= content_tag :h1, t("messaging.messaging").capitalize, class: "p-5 m-0" %>
 <% end %>
 
-<%= content_tag :div, id: "messages-table", class: "container d-flex justify-content-center align-items-center" do %>
-  <%= content_tag :div, class: "row" do %>
+<%= content_tag :div, id: "messages-table", class: "container" do %>
+  <%= form_with url: search_users_path, method: :post, class: "row" do |form| %>
+    <%= form.search_field :search_value, value: params[:search_value], oninput: "this.form.requestSubmit()" %>
+  <% end %>
+
+  <div class="row d-flex justify-content-center align-items-center">
     <%= content_tag :table, class: "table" do %>
       <%= content_tag :thead do %>
         <%= content_tag :tr do %>
           <%= content_tag :th do %>
           <% end %>
         <% end %>
-      <% end %>
 
-      <%= content_tag :tbody do %>
-        <%= content_tag :div, id: "search_results" do %>
-          <%= turbo_frame_tag "messages-index" do %>
-            <%= render partial: "messaging/messages/list", locals: { resources: @messages } %>
+        <%= content_tag :tbody do %>
+          <%= content_tag :div, id: "search_results" do %>
+            <%= turbo_frame_tag "messages-index" do %>
+              <%= render partial: "messaging/messages/list", locals: { resources: @messages } %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
     <% end %>
-  <% end %>
+  </div>
 <% end %>
