@@ -3,44 +3,48 @@
 <%= content_tag :div, data: { controller: "messaging" } do %>
   <input type="hidden" class="d-none" value="<%= current_user.id %>" data-messaging-target="currentUserId">
 
-  <%= content_tag :div, id: "messaging", class: "container d-flex justify-content-center align-items-center" do %>
+  <%= content_tag :div, id: "messaging", class: "d-flex justify-content-center align-items-center" do %>
 
-    <%= content_tag :div, class: "d-flex row justify-content-center pt-4 pb-4" do %>
-      <%= content_tag :div, class: "col-12 overflow-y-auto w-100 chat__box position-relative pb-2", data: { messaging_target: "chatBox" } do %>
+    <%= content_tag :div, class: "chat__div" do %>
+      <%= content_tag :div, class: "overflow-y-auto chat__box", data: { messaging_target: "chatBox" } do %>
         <%= turbo_stream_from "message_channel:#{current_user.id}" %>
-        <%= turbo_frame_tag "messages-list" do %>
-          <%= render partial: "messaging/messages/message", collection: @user_messages %>
+        <%= content_tag :div, class: current_user.manager? || current_user.admin? ? "institution" : "user" do %>
+          <%= turbo_frame_tag "messages-list" do %>
+            <%= render partial: "messaging/messages/message", collection: @user_messages %>
+          <% end %>
+        <% end %>
+
+        <%= content_tag :div, class: "d-none", data: { messaging_target: "newMessage" } do %>
+          <%= t("messaging.new_message") %>
+          <%= image_tag "arrow-down-circle.svg", class: "position-relative", style: "width: 15px;" %>
         <% end %>
       <% end %>
-
-      <%= content_tag :div, class: "d-none", data: { messaging_target: "newMessage" } do %>
-        <%= t("messaging.new_message") %>
-        <%= image_tag "arrow-down-circle.svg", class: "position-relative", style: "width: 15px;" %>
-      <% end %>
         
-      <%= content_tag :div, class: "col-12 pt-4" do %>
+      <%= content_tag :div, class: "pt-3 pb-3 pt-md-4" do %>
         <%= form_with model: @message, url: messaging.messages_path, method: :post, data: { messaging_target: "form" } do |f| %>      
-          <%= content_tag :div, class: "d-flex justify-content-end field" do %>
+          <%= content_tag :div do %>
             <%= content_tag :div, class:"row" do %>
               <%= f.hidden_field :user_id, value: params[:id].blank? ? current_user.id : params[:id] %>
-              <%= content_tag :div, class: "d-flex flex-md-column" do %>
 
-                <%= content_tag :div, class: "form-floating" do %>
+                <%= content_tag :div, class: "col-10 d-flex justify-content-end" do %>
+                <%= content_tag :div, class: "col-12 col-md-8 form-floating" do %>
                   <%= f.text_area :body, class: "form-control", placeholder: "", id: "message-body", required: true, data: { messaging_target: "newMessageInput" }  %>
                   <%= f.label :body, t("messaging.your_message").capitalize, for: "message-body", class: "form-label ms-2" %>
                 <% end %>
-
-                <%= content_tag :div, class: "d-flex justify-content-end pt-2" do %>
-                  <%= f.submit t("messaging.send"), class: "btn btn-info d-none d-md-flex", data: { messaging_target: "submit" } %>
-                  <%= f.submit "", class: "btn btn-info send__img d-md-none ms-2", data: { messaging_target: "submit" } %>
                 <% end %>
-              <% end %>
+
+                <%= content_tag :div, class: "col-2 d-flex justify-content-center" do %>
+                  <%= content_tag :div, class: "mt-auto" do %>
+                    <%= f.submit t("messaging.send"), class: "btn btn-info d-none d-md-flex", data: { messaging_target: "submit" } %>
+                    <%= f.submit "", class: "btn btn-info send__img d-md-none ms-2", data: { messaging_target: "submit" } %>
+                  <% end %>
+                <% end %>
+
             <% end %>
           <% end %>
         <% end %>
       <% end %>
 
     <% end %>
-
   <% end %>
 <% end %>

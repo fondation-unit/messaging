@@ -1,8 +1,8 @@
 <li id="<%= dom_id message %>" class="<%= "list-item d-flex #{Messaging::MessageHelper.message_box_class(message, message.current_user)}" %>">
-  <div class="<%= "#{Messaging::MessageHelper.message_box_class(message, message.current_user)}-box p-2 me-5 mt-2 mb-2" %>">
+  <div class="<%= "#{Messaging::MessageHelper.message_box_class(message, message.current_user)} p-2 mt-2 mb-2" %>">
     <div class="d-flex flex-column">
-      <span class="col-12">
-        <%= Messaging::MessageHelper.user_name(message.emitter.firstname, message.emitter.lastname) %>
+      <span class="col-12 username">
+        <%= Messaging::MessageHelper.user_name(message.emitter, message.current_user) %>
       </span>
       <span class="col-12">
         <%= message.body %>

@@ -48,8 +48,8 @@ module Messaging
 
     private
 
-      def message_params
-        params.require(:message).permit(:user_id, :emitter_id, :receiver_id, :emitter_type, :receiver_type, :body)
-      end
+    def message_params
+      params.require(:message).permit(:user_id, :emitter_id, :receiver_id, :emitter_type, :receiver_type, :body)
+    end
   end
 end
