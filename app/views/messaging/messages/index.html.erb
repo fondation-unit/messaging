@@ -1,10 +1,12 @@
+<%= javascript_include_tag "messaging/application", "data-turoblinks-track": "reload", type: "module" %>
+
 <%= content_tag :div, class: "page__header" do %>
   <%= content_tag :h1, t("messaging.messaging").capitalize, class: "p-5 m-0" %>
 <% end %>
 
 <%= content_tag :div, id: "messages-table", class: "container" do %>
-  <%= form_with url: search_users_path, method: :post, class: "row" do |form| %>
-    <%= form.search_field :search_value, value: params[:search_value], oninput: "this.form.requestSubmit()" %>
+  <%= form_with url: search_users_path, method: :post, class: "row", data: { controller: "debounce", debounce_target: "form" } do |form| %>
+    <%= form.search_field :search_value, value: params[:search_value], data: { action: "input->debounce#search" } %>
   <% end %>
 
   <div class="row d-flex justify-content-center align-items-center">

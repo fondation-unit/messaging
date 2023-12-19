@@ -2468,6 +2468,23 @@ Controller.targets = [];
 Controller.outlets = [];
 Controller.values = {};
 
+// app/javascript/controllers/debounce_controller.ts
+class debounce_controller_default extends Controller {
+  constructor() {
+    super(...arguments);
+  }
+  static targets = ["form"];
+  connect() {
+    console.log("debounce");
+  }
+  search() {
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.formTarget.requestSubmit();
+    }, 500);
+  }
+}
+
 // node_modules/@rails/actioncable/app/assets/javascripts/actioncable.esm.js
 var createWebSocketURL = function(url) {
   if (typeof url === "function") {
@@ -3006,9 +3023,10 @@ class messaging_controller_default extends Controller {
 var application = Application.start();
 application.debug = false;
 window["Stimulus"] = application;
+application.register("debounce", debounce_controller_default);
 application.register("messaging", messaging_controller_default);
 export {
   application
 };
 
-//# debugId=25FB6352CE4C723564756e2164756e21
+//# debugId=AA5B5BDA62BECFB564756e2164756e21

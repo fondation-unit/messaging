@@ -9,6 +9,8 @@ window["Stimulus"] = application;
 export { application };
 
 // Controllers
+import DebounceController from "./controllers/debounce_controller";
 import MessagingController from "./controllers/messaging_controller";
 
+application.register("debounce", DebounceController);
 application.register("messaging", MessagingController);
