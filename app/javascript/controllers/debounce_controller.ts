@@ -7,10 +7,6 @@ export default class extends Controller {
   declare timeout: any;
   declare formTarget: HTMLFormElement;
 
-  connect() {
-    console.log("debounce")
-  }
-
   search() {
     clearTimeout(this.timeout);
 

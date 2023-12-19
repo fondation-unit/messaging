@@ -32,9 +32,9 @@ module Messaging
     end
 
     def self.mark_user_message_as_read(user)
-      unread_messages = unread_messages_for_user(user).includes(:emitter).select { |m| m.user == m.emitter }
+      unread_messages = unread_messages_for_user(user).includes(:emitter).select { |m| m.user != m.emitter }
       unread_messages.each do |message|
-        message.update(read: true)
+        message.update(read: true, institution: user.institution, user: user)
       end
     end
 
@@ -57,15 +57,12 @@ module Messaging
     private
 
     def update_user_messages_list
-      user_to_broadcast_to = Institution.get_managers(institution.id) + [user]
-      user_to_broadcast_to.map { |u|
-        self.message_class = (emitter.manager? || emitter.admin?) ? "self__box institution" : "emitter__box user"
+      self.message_class = (emitter.manager? || emitter.admin?) ? "self__box institution" : "emitter__box user"
 
-        broadcast_append_to "message_channel:#{u.id}",
-          partial: "messaging/messages/message",
-          locals: {message: self},
-          target: "messages-list"
-      }
+      broadcast_append_to "message_channel:#{user.id}",
+        partial: "messaging/messages/message",
+        locals: {message: self},
+        target: "messages-list"
     end
 
     def send_notification

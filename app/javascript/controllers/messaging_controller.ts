@@ -15,7 +15,9 @@ export default class extends Controller {
     const consummer = createConsumer();
 
     consummer.subscriptions.create({ channel: "MessageChannel", id: current_user.value }, {
-      connected: () => { },
+      connected: () => {
+        console.log("Connected to MessageChannel.");
+      },
       received: (data) => {
         if (!data.includes("class=\"list-item self")) {
           this.newMessageTarget.classList.remove("d-none");

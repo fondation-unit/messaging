@@ -2474,9 +2474,6 @@ class debounce_controller_default extends Controller {
     super(...arguments);
   }
   static targets = ["form"];
-  connect() {
-    console.log("debounce");
-  }
   search() {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
@@ -2989,6 +2986,7 @@ class messaging_controller_default extends Controller {
     const consummer = createConsumer();
     consummer.subscriptions.create({ channel: "MessageChannel", id: current_user.value }, {
       connected: () => {
+        console.log("Connected to MessageChannel.");
       },
       received: (data) => {
         if (!data.includes("class=\"list-item self")) {
@@ -3029,4 +3027,4 @@ export {
   application
 };
 
-//# debugId=AA5B5BDA62BECFB564756e2164756e21
+//# debugId=3D32F3C4C3A8A41B64756e2164756e21

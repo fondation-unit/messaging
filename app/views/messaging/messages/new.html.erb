@@ -5,12 +5,12 @@
 <% end %>
 
 <%= content_tag :div, data: { controller: "messaging" } do %>
-  <input type="hidden" class="d-none" value="<%= current_user.id %>" data-messaging-target="currentUserId">
+  <input type="hidden" class="d-none" value="<%= params[:id].present? ? params[:id] : current_user.id %>" data-messaging-target="currentUserId">
 
   <%= content_tag :div, id: "messaging", class: "d-flex justify-content-center align-items-center" do %>
     <%= content_tag :div, class: "chat__div" do %>
       <%= content_tag :div, class: "overflow-y-auto chat__box", data: { messaging_target: "chatBox" } do %>
-        <%= turbo_stream_from "message_channel:#{current_user.id}" %>
+        <%= turbo_stream_from "message_channel:#{params[:id].present? ? params[:id] : current_user.id}" %>
         <%= content_tag :div, class: current_user.manager? || current_user.admin? ? "institution" : "user" do %>
           <%= turbo_frame_tag "messages-list" do %>
             <%= render partial: "messaging/messages/message", collection: @user_messages %>
