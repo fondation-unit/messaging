@@ -5,6 +5,7 @@ module Messaging
     mattr_accessor :notification_channel,
       :notification_target,
       :notification_count_method,
+      :notification_emitter_method,
       :user_class,
       :institution_class,
       :admin_path
@@ -13,6 +14,7 @@ module Messaging
       @notification_channel = "default_notification_channel"
       @notification_target = "notifications-count"
       @notification_count_method = nil
+      @notification_emitter_method = "message_notification"
       @admin_path = "admin"
     end
   end

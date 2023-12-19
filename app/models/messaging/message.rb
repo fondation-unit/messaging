@@ -69,10 +69,7 @@ module Messaging
     end
 
     def send_notification
-      broadcast_replace_to Messaging.configuration.notification_channel,
-        user.id,
-        target: Messaging.configuration.notification_target,
-        html: user.public_send(Messaging.configuration.notification_count_method)
+      user.public_send(Messaging.configuration.notification_emitter_method, [user])
     end
   end
 end

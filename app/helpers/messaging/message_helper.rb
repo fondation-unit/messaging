@@ -7,7 +7,7 @@ module Messaging
     end
 
     def self.message_box_class(message, current_user)
-      return "#{message.message_class}" if message.message_class.present?
+      return message.message_class.to_s if message.message_class.present?
 
       if current_user.manager? || current_user.admin?
         return "emitter__box user" if message.emitter.student?
