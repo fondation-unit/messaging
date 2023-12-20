@@ -1,14 +1,21 @@
 <%= javascript_include_tag "messaging/application", "data-turoblinks-track": "reload", type: "module" %>
 
-<% if current_user.manager? || current_user.admin? %>
-  <h1><%= @user&.firstname %> <%= @user&.lastname %></h1>
-<% end %>
-
 <%= content_tag :div, data: { controller: "messaging" } do %>
   <input type="hidden" class="d-none" value="<%= params[:id].present? ? params[:id] : current_user.id %>" data-messaging-target="currentUserId">
 
   <%= content_tag :div, id: "messaging", class: "d-flex justify-content-center align-items-center" do %>
     <%= content_tag :div, class: "chat__div" do %>
+
+      <h2 class="messaging-username d-flex align-items-center py-2 px-3">
+        <% if current_user.manager? || current_user.admin? %>
+          <%= @user&.firstname %> <%= @user&.lastname %>
+          <%= link_to :back, messages_path, class: "ms-auto" %>
+        <% else %>
+          <%= @user&.institution&.name %>
+          <%= link_to :back, root_path, class: "ms-auto" %>
+        <% end %>
+      </h2>
+
       <%= content_tag :div, class: "overflow-y-auto chat__box", data: { messaging_target: "chatBox" } do %>
         <%= turbo_stream_from "message_channel:#{params[:id].present? ? params[:id] : current_user.id}" %>
         <%= content_tag :div, class: current_user.manager? || current_user.admin? ? "institution" : "user" do %>
